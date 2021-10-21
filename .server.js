@@ -19,6 +19,11 @@ mongoose.connection
   .on("close", () => console.log("You are disconnected from mongoose"))
   .on("error", (error) => console.log(error));
 
+const User = require('./models/User');
+
+const userController = require('./controllers/users');
+
+
 
 
 /////////////////////////////////////////////////////////////////////////////
@@ -28,9 +33,7 @@ app.use(cors()); // to prevent cors errors, open access to all origins
 app.use(morgan("dev")); // logging
 app.use(express.json()); // parse json bodies
 
-
-
-
+app.use('/users', userController);
 /////////////////////////////////////////////////////////////////////////////
 //                          Routes
 /////////////////////////////////////////////////////////////////////////////
@@ -38,7 +41,16 @@ app.get("/", (req, res) => {
     res.send("hello world");
   });
 
-
+// PEOPLE INDEX ROUTE
+// app.get("/people", async (req, res) => {
+//     try {
+//       // send all people
+//       res.json(await People.find({}));
+//     } catch (error) {
+//       //send error
+//       res.status(400).json(error);
+//     }
+//   });
 
 
 
