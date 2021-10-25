@@ -20,8 +20,10 @@ mongoose.connection
   .on("error", (error) => console.log(error));
 
 const User = require('./models/User');
+const Recipe = require('./models/Recipe');
 
 const userController = require('./controllers/users');
+const recipeController = require('./controllers/recipes');
 
 
 
@@ -34,24 +36,12 @@ app.use(morgan("dev")); // logging
 app.use(express.json()); // parse json bodies
 
 app.use('/users', userController);
+app.use('/recipes', recipeController);
 /////////////////////////////////////////////////////////////////////////////
 //                          Routes
 /////////////////////////////////////////////////////////////////////////////
 app.get("/", (req, res) => {
     res.send("hello world");
   });
-
-// PEOPLE INDEX ROUTE
-// app.get("/people", async (req, res) => {
-//     try {
-//       // send all people
-//       res.json(await People.find({}));
-//     } catch (error) {
-//       //send error
-//       res.status(400).json(error);
-//     }
-//   });
-
-
 
 app.listen(PORT, () => console.log(`listening on PORT ${PORT}`));
