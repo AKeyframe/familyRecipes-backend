@@ -21,9 +21,11 @@ mongoose.connection
 
 const User = require('./models/User');
 const Recipe = require('./models/Recipe');
+const Family = require('./models/Family');
 
 const userController = require('./controllers/users');
 const recipeController = require('./controllers/recipes');
+const familyController = require('./controllers/families');
 
 
 
@@ -37,6 +39,8 @@ app.use(express.json()); // parse json bodies
 
 app.use('/users', userController);
 app.use('/recipes', recipeController);
+app.use('/families', familyController);
+
 /////////////////////////////////////////////////////////////////////////////
 //                          Routes
 /////////////////////////////////////////////////////////////////////////////

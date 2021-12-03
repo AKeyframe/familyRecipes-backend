@@ -14,6 +14,8 @@ const userSchema = new Schema({
     password: {type: String, required: true, unique: true},
     first: String,
     last: String,
+    families: [{type: Schema.Types.ObjectId, ref: 'Family'}],
+    requests: [{type: Schema.Types.ObjectId, ref: 'Family'}],
 }, {
   timestamps: true
 });
