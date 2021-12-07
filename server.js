@@ -22,10 +22,12 @@ mongoose.connection
 const User = require('./models/User');
 const Recipe = require('./models/Recipe');
 const Family = require('./models/Family');
+const Profile = require('./models/Profile');
 
 const userController = require('./controllers/users');
 const recipeController = require('./controllers/recipes');
 const familyController = require('./controllers/families');
+const profileController = require('./controllers/profiles');
 
 
 
@@ -40,6 +42,7 @@ app.use(express.json()); // parse json bodies
 app.use('/users', userController);
 app.use('/recipes', recipeController);
 app.use('/families', familyController);
+app.use('/profile', profileController);
 
 /////////////////////////////////////////////////////////////////////////////
 //                          Routes

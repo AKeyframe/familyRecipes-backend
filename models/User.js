@@ -12,10 +12,7 @@ const userSchema = new Schema({
     },
     username: {type: String, required: true, unique: true},
     password: {type: String, required: true, unique: true},
-    first: String,
-    last: String,
-    families: [{type: Schema.Types.ObjectId, ref: 'Family'}],
-    requests: [{type: Schema.Types.ObjectId, ref: 'Family'}],
+    profile: {type: Schema.Types.ObjectId, ref: 'Profile'},
 }, {
   timestamps: true
 });

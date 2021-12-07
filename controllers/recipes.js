@@ -1,6 +1,7 @@
 const express = require('express');
 const recipeRouter = express.Router();
 const Recipe = require('../models/Recipe');
+const Profile = require('../models/Profile');
 
 
 //Index
@@ -35,13 +36,27 @@ recipeRouter.put("/:id", async (req, res) => {
 
 //Create
 recipeRouter.post('/', async (req, res) => {
-    try {
-        res.json(await Recipe.create(req.body));
-    } catch (error) {
-        //bad request
-        res.status(400).json(error);
-    }
-});
+  const id = req.body.creator;
+  let response = null;
+
+  Recipe.create(req.body, (error, newRecipe) => {
+    response = newRecipe;
+
+    Profile.findById(id, (error, userProfile) => {
+      userProfile.recipes.push(newRecipe._id);
+      userProfile.save();
+      
+    });//userProfile
+  });//newRecipe
+
+  try {
+    res.json(await response);
+  } catch (error) {
+    //bad request
+    res.status(400).json(error);
+  }
+});//recipeRouter
+
 
 //Show
 recipeRouter.get('/:id', async (req, res) => {
