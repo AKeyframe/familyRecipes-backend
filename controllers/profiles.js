@@ -21,6 +21,23 @@ profileRouter.get('/:id/recipes', async (req, res) => {
     }
 });
 
+profileRouter.get('/:id/families', async (req, res) => {
+    const id = req.params.id;
+
+
+    Profile.findById(id).populate('families').exec((error, userProfile) => {
+        console.log(userProfile);
+       
+        try{
+            res.json(userProfile.families);
+        } catch (error) {
+            console.log(error);
+        }
+    });
+
+    
+});
+
 
 profileRouter.get('/:id', async (req, res) => {
     Profile.findById(req.params.id, (error, userProfile) => {

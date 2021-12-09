@@ -3,8 +3,9 @@ const Schema = mongoose.Schema;
 
 const familySchema = new Schema({
     name: String,
-    head: String,
-    members: [{type: String}],
+    head: {type: Schema.Types.ObjectId, ref: 'Profile'},
+    members: [{type: Schema.Types.ObjectId, ref: 'Profile'}],
+    favorites: [{type: Schema.Types.ObjectId, ref: 'Recipe'}],
     whoCanInvite: String,
 });
 
