@@ -39,22 +39,30 @@ recipeRouter.post('/', async (req, res) => {
   const id = req.body.creator;
   let response = null;
 
-  Recipe.create(req.body, (error, newRecipe) => {
-    response = newRecipe;
+  console.log('profile id')
+  console.log(id);
 
+  Recipe.create(req.body, (error, newRecipe) => {
     Profile.findById(id, (error, userProfile) => {
+      console.log('before')
+      console.log(userProfile)
       userProfile.recipes.push(newRecipe._id);
       userProfile.save();
-      
+      console.log('after')
+      console.log(userProfile)
+
+
+      try {
+        res.json(newRecipe);
+      } catch (error) {
+        //bad request
+        res.status(400).json(error);
+      }
     });//userProfile
   });//newRecipe
 
-  try {
-    res.json(await response);
-  } catch (error) {
-    //bad request
-    res.status(400).json(error);
-  }
+  
+  
 });//recipeRouter
 
 

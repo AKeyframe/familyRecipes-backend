@@ -23,12 +23,17 @@ profileRouter.get('/:id/recipes', async (req, res) => {
 
 
 profileRouter.get('/:id', async (req, res) => {
+    Profile.findById(req.params.id, (error, userProfile) => {
+        console.log('User Profile')
+        console.log(userProfile);
+        try{
+            res.json(userProfile)
+        } catch (error) {
+            console.log(error);
+        }
+
+    }).populate('recipes'); 
     
-    try{
-        res.json(await Profile.findById(req.params.id).populate('recipes'));
-    } catch (error) {
-        console.log(error);
-    }
 
 
 });
