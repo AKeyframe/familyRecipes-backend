@@ -10,7 +10,8 @@ const profileSchema = new Schema({
     recipes: [{type: Schema.Types.ObjectId, ref: 'Recipe'}],
     favorites: [{type: Schema.Types.ObjectId, ref: 'Recipe'}],
     families: [{type: Schema.Types.ObjectId, ref: 'Family'}],
-    requests: [{type: Schema.Types.ObjectId, ref: 'Family'}],
+    requests: [{reqType: String, from:{type: Schema.Types.ObjectId, ref: 'Family'},
+                seen: Boolean}],
 });
 
 
