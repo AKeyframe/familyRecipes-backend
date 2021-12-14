@@ -4,7 +4,7 @@ const Schema = mongoose.Schema;
 
 const profileSchema = new Schema({
     user: {type: Schema.Types.ObjectId, ref: 'User'},
-    
+    username: String,
     first: String,
     last: String,
     recipes: [{type: Schema.Types.ObjectId, ref: 'Recipe'}],

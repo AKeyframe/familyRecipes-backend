@@ -3,8 +3,10 @@ const profileRouter = express.Router();
 const Recipe = require('../models/Recipe');
 const User = require('../models/User');
 const Profile = require('../models/Profile');
+const Family = require('../models/Family');
 
 
+//Add a favorite
 profileRouter.put('/:id/favorite', async (req, res) => {
     const recipeId = req.body.id;
     const profileId = req.params.id;
@@ -21,13 +23,47 @@ profileRouter.put('/:id/favorite', async (req, res) => {
     });
 });
 
+//Accept or Decline a Family Request
 profileRouter.put('/request/:id', (req, res) => {
     const dec = req.body.dec;
+    const famID = req.body.famID;
     const reqID = req.body.reqID;
     const profID = req.body.profID;
     
     if(dec === 'accept'){
         console.log('accepted')
+        let idx = 0;
+        Profile.findById(profID, (error, userProfile) => {
+            userProfile.requests.some((r, i) => {
+                if(r._id == reqID){
+                    idx = i;
+                    return true;
+                   
+                }
+                return false;
+            });
+
+            if(userProfile.requests.length > 1){
+                userProfile.requests = userProfile.requests.splice(idx-1, 1);
+            } else {
+                userProfile.requests = [];
+            }
+            userProfile.families.push(famID);
+            userProfile.save();
+
+            Family.findById(famID, (e, foundFamily) => {
+                foundFamily.members.push(profID);
+                foundFamily.save();
+            });
+
+            try{
+                res.json(userProfile);
+            } catch (err) {
+                console.log(err);
+            }
+        });
+
+
 
     } else if(dec === 'decline'){
         console.log('declined')
@@ -44,7 +80,6 @@ profileRouter.put('/request/:id', (req, res) => {
 
             if(userProfile.requests.length > 1){
                 userProfile.requests = userProfile.requests.splice(idx-1, 1);
-                console.log(userProfile.requests);
             } else {
                 userProfile.requests = [];
             }

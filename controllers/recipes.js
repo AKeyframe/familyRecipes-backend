@@ -16,11 +16,70 @@ recipeRouter.get('/', async (req, res) => {
 
 //Delete
 recipeRouter.delete('/:id', async (req, res) => {
-    try {
-        res.json(await Recipe.findByIdAndDelete(req.params.id));
-    } catch (error) {
-        res.status(400).json(error);
-    }
+    const id = req.params.id;
+    Recipe.findByIdAndDelete(id, (error, delRecipe) => {
+      Profile.find(
+        {$or: [{recipes: id}, {favorites: id}]}, (e, profs) =>{
+          if(profs !== undefined){
+            console.log('==========================')
+            console.log('==========================')
+            profs.forEach((p, i) => {
+              let recipeIdx = -1;
+              let favoriteIdx = -1;
+              p.recipes.some((rec, i2) => {
+                console.log(rec)
+                console.log(id)
+                console.log('--------------')
+
+                if(rec == id){
+                  recipeIdx = i2;
+                  console.log('true');
+                  return true;
+                }
+                return false;
+              });
+
+              p.favorites.some((fav, i3) => {
+                if(fav == id) {
+                  favoriteIdx = i3;
+                  return true;
+                }
+                return false;
+              });
+
+              console.log('////////////////////');
+              console.log(p.recipes)
+              if(recipeIdx !== -1){
+                if(p.recipes.length > 1){
+                  p.recipes.splice(recipeIdx, 1);
+                } else {
+                  p.recipes = [];
+                }
+              }
+
+              if(favoriteIdx !== -1){
+                if(p.favorites.length > 1){
+                  p.favorites.splice(favoriteIdx, 1);
+                } else { 
+                  p.favorites = [];
+                }
+              }
+
+              p.save();
+              console.log(p.recipes);
+
+
+              try {
+                res.json(delRecipe);
+              } catch (err) {
+                res.status(400).json(err);
+              }
+            });
+          }
+      });
+    });
+
+    
 });
 
 //Update
@@ -39,19 +98,11 @@ recipeRouter.post('/', async (req, res) => {
   const id = req.body.creator;
   let response = null;
 
-  console.log('profile id')
-  console.log(id);
-
   Recipe.create(req.body, (error, newRecipe) => {
     Profile.findById(id, (error, userProfile) => {
-      console.log('before')
-      console.log(userProfile)
       userProfile.recipes.push(newRecipe._id);
       userProfile.save();
-      console.log('after')
-      console.log(userProfile)
-
-
+      
       try {
         res.json(newRecipe);
       } catch (error) {
