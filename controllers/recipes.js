@@ -21,16 +21,11 @@ recipeRouter.delete('/:id', async (req, res) => {
       Profile.find(
         {$or: [{recipes: id}, {favorites: id}]}, (e, profs) =>{
           if(profs !== undefined){
-            console.log('==========================')
-            console.log('==========================')
             profs.forEach((p, i) => {
               let recipeIdx = -1;
               let favoriteIdx = -1;
-              p.recipes.some((rec, i2) => {
-                console.log(rec)
-                console.log(id)
-                console.log('--------------')
 
+              p.recipes.some((rec, i2) => {
                 if(rec == id){
                   recipeIdx = i2;
                   console.log('true');
@@ -47,8 +42,6 @@ recipeRouter.delete('/:id', async (req, res) => {
                 return false;
               });
 
-              console.log('////////////////////');
-              console.log(p.recipes)
               if(recipeIdx !== -1){
                 if(p.recipes.length > 1){
                   p.recipes.splice(recipeIdx, 1);
@@ -66,8 +59,6 @@ recipeRouter.delete('/:id', async (req, res) => {
               }
 
               p.save();
-              console.log(p.recipes);
-
 
               try {
                 res.json(delRecipe);
