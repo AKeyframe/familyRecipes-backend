@@ -163,7 +163,7 @@ profileRouter.get('/:id', async (req, res) => {
             console.log(error);
         }
 
-    }).populate('recipes').populate('favorites').populate('requests.from'); 
+    }).populate('recipes').populate('favorites').populate('requests.from').populate('families'); 
     
 
 

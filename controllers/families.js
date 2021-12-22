@@ -98,7 +98,7 @@ familyRouter.get('/:id/recipes', async (req, res) => {
 //Show
 familyRouter.get('/:id', async (req, res) => {
     try {
-        res.json(await Family.findById(req.params.id));
+        res.json(await Family.findById(req.params.id).populate('members').populate('head'));
     } catch (error) {
         //bad request
         res.status(400).json(error);

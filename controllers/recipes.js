@@ -24,7 +24,7 @@ recipeRouter.delete('/:id', async (req, res) => {
             profs.forEach((p, i) => {
               let recipeIdx = -1;
               let favoriteIdx = -1;
-
+              
               p.recipes.some((rec, i2) => {
                 if(rec == id){
                   recipeIdx = i2;
@@ -60,6 +60,7 @@ recipeRouter.delete('/:id', async (req, res) => {
 
               p.save();
 
+
               try {
                 res.json(delRecipe);
               } catch (err) {
@@ -86,11 +87,14 @@ recipeRouter.put("/:id", async (req, res) => {
 
 //Create
 recipeRouter.post('/', async (req, res) => {
+  console.log('==============');
+  console.log(req.body);
   const id = req.body.creator;
   let response = null;
 
   Recipe.create(req.body, (error, newRecipe) => {
     Profile.findById(id, (error, userProfile) => {
+      console.log(userProfile);
       userProfile.recipes.push(newRecipe._id);
       userProfile.save();
       
