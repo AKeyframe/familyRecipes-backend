@@ -1,5 +1,5 @@
 # The Family Table
-A web appication designed for families to store and share their recipes withfamily members. You can find the application [here](https://the-family-table.netlify.app/).
+The Family Table is a responsive, full MERN stack web application for users to store their favorite recipes and share them with their loved ones. Users are able to create tables, allowing any who are a part of them to see any recipe of the table members. Protected with JWT tokens, only you and your family / families will have access to your personal recipes. (Heroku takes a bit to spin up so give the site a sec to load as well as signup/login) You can find the application [here](http://the-family-table.herokuapp.com/).
 
 ## Technologies
 - HTML
@@ -19,7 +19,12 @@ A web appication designed for families to store and share their recipes withfami
 ![ERD](/wireframes/ERD.png)
 
 ## Future Functionality
-Implementing families
-Email Verification
-Password recovery
-Google OAuth
+- Polish and finsih what's already there / imporved UX
+- Email Verification
+- Password recovery
+- Google OAuth
+- Add Images to recipes
+- Public recipes
+- Search recipes
+
+
